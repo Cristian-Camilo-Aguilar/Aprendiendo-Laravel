@@ -15,7 +15,7 @@ class EmpleadoController extends Controller
     public function index()
     {
         //
-        $listado['empleados'] = empleado::paginate(5);
+        $listado['empleados'] = empleado::paginate(2);
         return view('empleados.index', $listado);
     }
 
@@ -33,14 +33,31 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validacion de los Campos al crear los Registros
+
+        $validacion = [
+            'Nombres' => 'required|string|max:100',
+            'PrimerApel' => 'required|string|max:100',
+            'SegundoApel' => 'required|string|max:100',
+            'Correo' => 'required|string|max:255',
+            'Foto' => 'required',
+        ];
+
+        $msj = [
+            'required' => 'El :attribute es requerido',
+            'Foto.required' => 'La Foto es requerida',
+        ];
+
+        $this->validate($request, $validacion, $msj);
+
         // $datosEmpleado = request()->all();
         $datosEmpleado = request()->except('_token');
         if ($request->hasFile('Foto')) {
             $datosEmpleado['Foto'] = request()->file('Foto')->store('uploads', 'public');
         }
         empleado::insert($datosEmpleado);
-        return response()->json($datosEmpleado);    
+        // return response()->json($datosEmpleado); 
+        return redirect('empleados')->with('mensaje', 'Registro Ingresado con Exito');   
     }
 
     /**
@@ -66,7 +83,27 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Validacion en Actualizar
+
+        $validacion = [
+            'Nombres' => 'required|string|max:100',
+            'PrimerApel' => 'required|string|max:100',
+            'SegundoApel' => 'required|string|max:100',
+            'Correo' => 'required|string|max:255',
+            'Foto' => 'required',
+        ];
+
+        $msj = [
+            'required' => 'El :attribute es requerido',
+        ];
+
+        if($request->hasFile('Foto')) {
+            $validacion = ['Foto' => 'required|max:10000|mimes:jpg,png,jpeg'];
+            $msj = ['Foto.required' => 'La Foto es requerida'];
+        }
+
+        $this->validate($request,$validacion,$msj);
+
         $datos = request()->except(['_token', '_method']);
 
         if ($request->hasFile('Foto')) {
@@ -75,6 +112,7 @@ class EmpleadoController extends Controller
 
         empleado::where('id', '=', $id)->update($datos);
         $empleado = empleado::findOrFail($id);
+
         return view('empleados.update', compact('empleado'));
     }
 
@@ -83,8 +121,11 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-        //
-        empleado::destroy($id);
-        return redirect('empleados');
+        // Busca la imagen que viene del id seleccionado y si la encuentra la borra
+        $empleado = empleado::findOrFail($id);
+        if (Storage::delete('public/'.$empleado->Foto)) {
+            empleado::destroy($id);
+        }
+        return redirect('empleados')->with('mensaje', 'Registro Eliminado con Exito');
     }
 }

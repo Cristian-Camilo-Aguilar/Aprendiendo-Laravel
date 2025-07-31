@@ -1,9 +1,23 @@
-<input type="text" value="{{ isset($empleado->Nombres)?$empleado->Nombres:'' }}" name="Nombres" id="Nombres" placeholder="Introduzca el Nombre">
-<input type="text" value="{{ isset($empleado->PrimerApel)?$empleado->PrimerApel:'' }}" name="PrimerApel" id="PrimerApel" placeholder="Introduzca el Primer Apellido">
-<input type="text" value="{{ isset($empleado->SegundoApel)?$empleado->SegundoApel:'' }}" name="SegundoApel" id="SegundoApel" placeholder="Introduzca el Segundo Apellido">
-<input type="text" value="{{ isset($empleado->Correo)?$empleado->Correo:'' }}" name="Correo" id="Correo" placeholder="Introduzca el Email">
-<input type="file" name="Foto" id="Foto">
+<br>
+@if(count($errors)>0)
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<h1>{{ $modo }} Empleados</h1>
+
+<input type="text" value="{{ isset($empleado->Nombres)?$empleado->Nombres:old('Nombres') }}" name="Nombres" id="Nombres" placeholder="Introduzca el Nombre"><br><br>
+<input type="text" value="{{ isset($empleado->PrimerApel)?$empleado->PrimerApel:old('PrimerApel') }}" name="PrimerApel" id="PrimerApel" placeholder="Introduzca el Primer Apellido"><br><br>
+<input type="text" value="{{ isset($empleado->SegundoApel)?$empleado->SegundoApel:old('SegundoApel') }}" name="SegundoApel" id="SegundoApel" placeholder="Introduzca el Segundo Apellido"><br><br>
+<input type="text" value="{{ isset($empleado->Correo)?$empleado->Correo:old('Correo') }}" name="Correo" id="Correo" placeholder="Introduzca el Email"><br><br>
+<input type="file" name="Foto" id="Foto"><br><br>
 @if (isset($empleado->Foto))
     <img src="{{ asset('storage').'/'.$empleado->Foto }}" alt="" width="220" height="220">
 @endif
-<input type="submit" value="Guardar">
+<br>
+<input type="submit" class="btn btn-success" value="{{$modo}} Registro">
