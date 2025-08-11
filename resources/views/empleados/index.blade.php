@@ -10,7 +10,7 @@
     @section('content')
     <div class="container">
     
-    <!-- Recibe la Funcion mensaje desde el Controlador para mostrar un Mnesaje de Confirmacion -->
+    <!-- Recibe la Funcion mensaje desde el Controlador para mostrar un Mensaje de Confirmacion -->
     @if((Session::has('mensaje')))
         <div class="alert alert-success alert-dismissible" role="alert">
             {{ Session::get('mensaje') }}

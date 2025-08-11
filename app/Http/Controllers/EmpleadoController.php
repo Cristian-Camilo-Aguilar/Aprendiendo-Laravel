@@ -113,7 +113,7 @@ class EmpleadoController extends Controller
         empleado::where('id', '=', $id)->update($datos);
         $empleado = empleado::findOrFail($id);
 
-        return view('empleados.update', compact('empleado'));
+        return redirect('empleados')->with('mensaje', 'Registro Actualizado con Exito');
     }
 
     /**

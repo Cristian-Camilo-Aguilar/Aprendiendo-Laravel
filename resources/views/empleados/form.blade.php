@@ -11,13 +11,15 @@
 
 <h1>{{ $modo }} Empleados</h1>
 
-<input type="text" value="{{ isset($empleado->Nombres)?$empleado->Nombres:old('Nombres') }}" name="Nombres" id="Nombres" placeholder="Introduzca el Nombre"><br><br>
-<input type="text" value="{{ isset($empleado->PrimerApel)?$empleado->PrimerApel:old('PrimerApel') }}" name="PrimerApel" id="PrimerApel" placeholder="Introduzca el Primer Apellido"><br><br>
-<input type="text" value="{{ isset($empleado->SegundoApel)?$empleado->SegundoApel:old('SegundoApel') }}" name="SegundoApel" id="SegundoApel" placeholder="Introduzca el Segundo Apellido"><br><br>
-<input type="text" value="{{ isset($empleado->Correo)?$empleado->Correo:old('Correo') }}" name="Correo" id="Correo" placeholder="Introduzca el Email"><br><br>
-<input type="file" name="Foto" id="Foto"><br><br>
-@if (isset($empleado->Foto))
-    <img src="{{ asset('storage').'/'.$empleado->Foto }}" alt="" width="220" height="220">
-@endif
-<br>
-<input type="submit" class="btn btn-success" value="{{$modo}} Registro">
+<div class="form-group">
+    <input class="form-control" type="text" value="{{ isset($empleado->Nombres)?$empleado->Nombres:old('Nombres') }}" name="Nombres" id="Nombres" placeholder="Introduzca el Nombre"><br><br>
+    <input class="form-control" type="text" value="{{ isset($empleado->PrimerApel)?$empleado->PrimerApel:old('PrimerApel') }}" name="PrimerApel" id="PrimerApel" placeholder="Introduzca el Primer Apellido"><br><br>
+    <input class="form-control" type="text" value="{{ isset($empleado->SegundoApel)?$empleado->SegundoApel:old('SegundoApel') }}" name="SegundoApel" id="SegundoApel" placeholder="Introduzca el Segundo Apellido"><br><br>
+    <input class="form-control" type="text" value="{{ isset($empleado->Correo)?$empleado->Correo:old('Correo') }}" name="Correo" id="Correo" placeholder="Introduzca el Email"><br><br>
+    <input class="form-control" type="file" name="Foto" id="Foto"><br><br>
+    @if (isset($empleado->Foto))
+        <img src="{{ asset('storage').'/'.$empleado->Foto }}" alt="" width="220" height="220">
+    @endif
+    <br>
+    <input type="submit" class="btn btn-success" value="{{$modo}} Registro">
+</div>
